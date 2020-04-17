@@ -23,7 +23,7 @@ def checkWord(word_letters,gues_letters,gues,chance):
 
 #A random function for select the word.
 def selectWord():
-    words = ["kulaklık","masa","bilgisayar","demir","kağıt","kalem"]
+    words = ["headphone","table","computer","paper","network","linux"]
     x = randint(0,5)
     return words[x]
 
@@ -80,14 +80,14 @@ def singlePlayer(total_score):
         return point
 
 #For play with a friend.
-def multiPlayer(player1,player2,tour):
+def multiPlayer(player1,player2,tour,point1,point2):
 
     system("clear")
     if tour % 2 == 0:
         print(f"{player1} will select the word and {player2} will know the word!")
         while True:
-            system("clear")
             try_word = input(f"{player1} enter a word: ")
+            system("clear")
             try:
                 try_word = int(try_word)
                 input("Word must be string! Press Enter.")
@@ -95,11 +95,12 @@ def multiPlayer(player1,player2,tour):
                 word = try_word.lower()
                 break
         the_player = player2
+        the_point = point2
     else:
         print(f"{player2} will select the word and {player1} will know the word!")
         while True:
-            system("clear")
             try_word = input(f"{player2} enter a word: ")
+            system("clear")
             try:
                 try_word = int(try_word)
                 input("Word must be string! Press Enter.")
@@ -107,6 +108,7 @@ def multiPlayer(player1,player2,tour):
                 word = try_word.lower()
                 break
         the_player = player1
+        the_point = point1
     
     chance = len(word)
     word_letters = list(word)
@@ -115,7 +117,7 @@ def multiPlayer(player1,player2,tour):
 
     while gameOver(gues_letters,chance):
         system("clear")
-        print(f"Guessing: {the_player}    Your Chance: {chance}    The letters you entered: {the_letters} ")
+        print(f"Guessing: {the_player}    Your Chance: {chance}    The letters you entered: {the_letters}   {the_player} score: {the_point} ")
         printWord(gues_letters)
         gues = input("\nEnter your gues: ")
 
@@ -134,12 +136,12 @@ def multiPlayer(player1,player2,tour):
                     gues_letters, chance = checkWord(word_letters,gues_letters,gues,chance)
 
     if chance == 0:
-        print(f"Game Over! The Word: {word}")
+        input(f"Game Over! The Word: {word}. Press Enter.")
         point = 0
         return point
     else:
-        print(f"You Win! The Word: {word}")
         point = chance*10
+        input(f"You Win! The Word: {word}. You win {point} score! Press Enter.")
         return point
  
 #The main function
@@ -158,7 +160,36 @@ def main():
         choice = choice.lower()
 
         if choice == "1":
-            pass
+            system("clear")
+            player1 = input("Enter a name for player1: ")
+            player2 = input("Enter a name for player2: ")
+            while True:
+                try:
+                    tour = int(input("How many labs (1~): "))
+                    if tour < 1:
+                        input("Labs must be bigger 0! Press Enter.")
+                    else:
+                        tour = 2*tour
+                        break
+                except ValueError:
+                    input("Labs must be integer! Press Enter.")
+            checker = 0
+            point1 = 0
+            point2 = 0
+            while checker != tour:
+                if checker % 2 == 0:
+                    point2 += multiPlayer(player1,player2,checker,point1,point2)
+                else:
+                    point1 += multiPlayer(player1,player2,checker,point1,point2)
+
+                checker += 1
+            if point1 > point2:
+                input(f"WINNER IS {player1}! {player1} score: {point1}    {player2} score: {point2}. Press Enter.")
+            elif point2 > point1:
+                input(f"WINNER IS {player2}! {player2} score: {point2}    {player1} score: {point1}. Press Enter.")
+            else:
+                input(f"DRAW! {player1} score: {point1}    {player2} score: {point2}. Press Enter.")
+
         elif choice == "2":
             total_score = 0
             point = 1
