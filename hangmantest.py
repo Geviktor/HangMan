@@ -5,8 +5,8 @@ from random import randint
 #Prints the word on the screen
 def printWord(letters):
     for i in letters:
-        print(i)
-
+        print(i+ " ",end="")
+ 
 #Checks the word. If letter is not in the word return chance - 1. If letter is in the word return letter.
 def checkWord(word_letters,gues_letters,gues,chance):
     list1 = []
