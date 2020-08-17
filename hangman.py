@@ -55,7 +55,7 @@ def singlePlayer(total_score):
         system("clear")
         print(f"Total Score: {total_score}        Your Chance: {chance}     The letters you entered: {the_letters} \n")
         printWord(gues_letters)
-        gues = input("\nEnter your gues: ")
+        gues = input("\n\nEnter your gues: ")
 
         try:
             gues = int(gues)
